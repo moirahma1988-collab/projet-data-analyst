@@ -1,0 +1,32 @@
+import pandas as pd
+import plotly.express as px
+
+# Lire le fichier CSV
+df = pd.read_csv("ventes.csv")
+
+# Calcul du chiffre d'affaires
+df["ca"] = df["prix"] * df["qte"]
+
+# Ventes par produit
+ventes = df.groupby("produit")["qte"].sum().reset_index()
+
+fig = px.bar(
+    ventes,
+    x="produit",
+    y="qte",
+    title="Ventes par produit"
+)
+
+fig.show()
+
+# Chiffre d'affaires par produit
+ca = df.groupby("produit")["ca"].sum().reset_index()
+
+fig2 = px.bar(
+    ca,
+    x="produit",
+    y="ca",
+    title="Chiffre d'affaires par produit"
+)
+
+fig2.show()
